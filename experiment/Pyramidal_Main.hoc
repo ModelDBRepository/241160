@@ -376,16 +376,19 @@ apc[n_nakeaxon + 2].thresh = 0 //10	//set ap threshold
 
 //Load the code to save the VM for all points in the structure, used for Figures 2, 3, 4, 5, 7:
 //Note, this consumes a lot of memory, leave commented for testing.
-//xopen("experiment/saveVm.txt")
+///////////
+xopen("experiment/saveVm.txt")
 
 
 
 //load the code to save the AP times at all terminals:
-//xopen("experiment/saveAPTime.txt")
+///////////
+xopen("experiment/saveAPTime.txt")
 
 
 
 
+///////////
 xopen("session/shape-plot.ses")
 
 
@@ -403,20 +406,23 @@ runSim(0.0372)
 //Uncomment the line below to save the membrane voltages used in Figure 2 A/B/D.
 //Stimulate at 130Hz
 //Uncomment saveVm.txt
-//xopen("experiment/writeOutVmFig2.txt")
+xopen("experiment/writeOutVmFig2.txt")
 
 
 //Figure 3:
 //Uncomment the line below to save all membrane voltage to generate the shape plot:
 //Make sure experiment/saveVm.txt is enabled
-//xopen("experiment/writeOutVm.txt")
+///////////
+xopen("experiment/writeOutVm.txt")
 
 
 
 //Figure 3C: Code used to print the timings of antidromically evoked AP in the cortical axon arbor terminals in response to a single stimulation event, 50 Hz stimulation and 130 Hz stimulation.
 //Be sure to set the number of APs evoked in the stimulus waveform generation section.
 //Enable experiment/saveAPTime.txt
-/*
+/**/
+///////////
+
 //load the section identifiers I want to record from
 ropen("experiment/rossPrintN.txt")
 objref sectionsToRecordFrom
@@ -429,13 +435,15 @@ for i = 0, 181 {
 		print apc_times[sectionsToRecordFrom.x[i]].x[j]
 	}
 }
-*/
+/**/
 
 
 //Figure 4 and 5 VM:
 //Uncomment the line below to save the membrane voltage for Figures 4 and 5:
 //Note, enable: experiment/excinhib/excinhib.hoc"
-//xopen("experiment/writeOutVmFig4and5.txt")
+///////////
+
+xopen("experiment/writeOutVmFig4and5.txt")
 
 
 
