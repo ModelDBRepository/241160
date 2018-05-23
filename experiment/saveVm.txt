@@ -1,0 +1,164 @@
+
+
+
+dend1N = 8
+dend2N = 12
+dend3N = 4
+dend4N = 6
+dend5N = 0
+dend6N = 10
+dend7N = 12
+dend8N = 4
+dend9N = 4
+dend10N = 10
+dend11N = 82
+
+
+//Define the objects being used, membraneVoltageNode is Nodal voltage, membraneVoltageMyelin is myelin voltage, membraneTimes is time.
+
+objref membraneVoltageNode[n_node + 1]  //nodal membrane voltages
+objref membraneVoltageMyelin[n_myelin + 1]  //myelin membrane voltages
+objref membraneVoltageNakeaxon[n_nakeaxon + 1]  //Unmyelinated axon membrane voltages
+objref membraneVoltageAIS[10]  //AIS membrane voltages
+objref membraneVoltageHill  //Hill membrane voltages
+objref membraneVoltageSoma  //Soma membrane voltages
+
+
+
+objref membraneVoltageDend1[dend1N + 1]
+objref membraneVoltageDend2[dend2N + 1]
+objref membraneVoltageDend3[dend3N + 1]
+objref membraneVoltageDend4[dend4N + 1]
+objref membraneVoltageDend5[dend5N + 1]
+objref membraneVoltageDend6[dend6N + 1]
+objref membraneVoltageDend7[dend7N + 1]
+objref membraneVoltageDend8[dend8N + 1]
+objref membraneVoltageDend9[dend9N + 1]
+objref membraneVoltageDend10[dend10N + 1]
+objref membraneVoltageDend11[dend11N + 1]
+
+
+objref membraneEExtracellular[1] //e_extracellular
+
+objref membraneTimes //time
+
+
+
+
+//node
+for i=0,n_node{
+	membraneVoltageNode[i] = new Vector()
+	membraneVoltageNode[i].record(&node[i].v(0.5))  //record the voltage in the center of the node
+}
+
+//myelin
+for i=0,n_myelin{
+	membraneVoltageMyelin[i] = new Vector()
+	membraneVoltageMyelin[i].record(&myelin[i].v(0.5))  //record the voltage in the center of the myelin
+}
+
+//nakeaxon
+for i=0,n_nakeaxon{
+	membraneVoltageNakeaxon[i] = new Vector()
+	membraneVoltageNakeaxon[i].record(&nakeaxon[i].v(0.5))  //record the voltage in the center of the myelin
+}
+
+
+//ais
+for i=0,9{
+	membraneVoltageAIS[i] = new Vector()
+	membraneVoltageAIS[i].record(&ais[i].v(0.5))  //record the voltage in the center of the ais
+}
+
+//hill
+	membraneVoltageHill = new Vector()
+	membraneVoltageHill.record(&hill.v(0.5))  //record the voltage in the center of the hill
+
+//soma
+	membraneVoltageSoma = new Vector()
+	membraneVoltageSoma.record(&soma.v(0.5))  //record the voltage in the center of the soma
+
+
+//dend1
+for i=0,dend1N{
+	membraneVoltageDend1[i] = new Vector()
+	membraneVoltageDend1[i].record(&dend1[i].v(0.5))  //record the voltage in the center of the ais
+}
+
+
+//dend2
+for i=0,dend2N{
+	membraneVoltageDend2[i] = new Vector()
+	membraneVoltageDend2[i].record(&dend2[i].v(0.5))
+}
+
+
+//dend3
+for i=0,dend3N{
+	membraneVoltageDend3[i] = new Vector()
+	membraneVoltageDend3[i].record(&dend3[i].v(0.5))
+}
+
+
+//dend4
+for i=0,dend4N{
+	membraneVoltageDend4[i] = new Vector()
+	membraneVoltageDend4[i].record(&dend4[i].v(0.5))
+}
+
+
+
+//dend5
+
+	membraneVoltageDend5[0] = new Vector()
+	membraneVoltageDend5[0].record(&dend5[0].v(0.5))
+
+
+//dend6
+for i=0,dend6N{
+	membraneVoltageDend6[i] = new Vector()
+	membraneVoltageDend6[i].record(&dend6[i].v(0.5))
+}
+
+
+//dend7
+for i=0,dend7N{
+	membraneVoltageDend7[i] = new Vector()
+	membraneVoltageDend7[i].record(&dend7[i].v(0.5))
+}
+
+
+//dend8
+for i=0,dend8N{
+	membraneVoltageDend8[i] = new Vector()
+	membraneVoltageDend8[i].record(&dend8[i].v(0.5))
+}
+
+//dend9
+for i=0,dend9N{
+	membraneVoltageDend9[i] = new Vector()
+	membraneVoltageDend9[i].record(&dend9[i].v(0.5))
+}
+
+//dend10
+for i=0,dend10N{
+	membraneVoltageDend10[i] = new Vector()
+	membraneVoltageDend10[i].record(&dend10[i].v(0.5))
+}
+
+
+//dend11
+for i=0,dend11N{
+	membraneVoltageDend11[i] = new Vector()
+	membraneVoltageDend11[i].record(&dend11[i].v(0.5))
+}
+
+
+//save e_extracellular in node[106]
+membraneEExtracellular[0] = new Vector()
+membraneEExtracellular[0].record(&node[106].e_extracellular(0.5))
+
+
+//Save the time
+membraneTimes = new Vector()
+membraneTimes.record(&t)

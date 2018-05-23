@@ -1,0 +1,48 @@
+
+
+//load the dendritic stim vector
+objref poisson_stim_1
+poisson_stim_1 = new Vector(tstop/dt,0)
+
+ropen("experiment/excinhib/excitatory/E1.txt")
+
+for i=0,210000-1{
+	poisson_stim_1.x[i] = 1*fscan()  //5:  20@2, 20@1, ~6@0.1, 0?@0.01, 0?@0.05
+}
+
+
+//Stim the apical dendrite:
+objref stimDend
+
+dend11[69] stimDend = new IClamp(1)  //25
+
+stimDend.del = 0
+stimDend.dur = 1e9 //40, //2
+
+
+poisson_stim_1.play(&stimDend.amp, 0.005)
+
+
+
+
+//load the inhibitory stim vector for inhibitory input onto the soma
+objref poisson_stim_2
+poisson_stim_2 = new Vector(tstop/dt,0)
+ropen("experiment/excinhib/inhibitory/I1.txt")
+
+for i=0,210000-1{
+	poisson_stim_2.x[i] = -24*fscan()
+}
+
+//Stim the soma
+objref stimSoma2
+
+soma stimSoma2 = new IClamp(1)  //25
+
+stimSoma2.del = 0
+stimSoma2.dur = 1e9 //40, //2
+
+
+poisson_stim_2.play(&stimSoma2.amp, 0.005)
+
+

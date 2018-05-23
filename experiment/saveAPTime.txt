@@ -1,0 +1,89 @@
+
+//declare the object to save the AP times during the experiment
+objectvar apc[n_nakeaxon + 3]
+objref apc_times[n_nakeaxon + 3]
+
+for i=0,n_nakeaxon {
+	nakeaxon[i] apc[i] = new APCount(0.5)
+	apc[i].thresh = 0	//set ap threshold
+	apc_times[i]=new Vector()
+	apc[i].record(apc_times[i])
+}
+
+//record N APs in the soma:
+soma apc[n_nakeaxon + 1] = new APCount(0.5)
+apc[n_nakeaxon + 1].thresh = 0	//set ap threshold
+apc_times[n_nakeaxon + 1]=new Vector()
+apc[n_nakeaxon + 1].record(apc_times[n_nakeaxon + 1])
+
+//Record N APs in the STN branch point
+node[98] apc[n_nakeaxon + 2] = new APCount(0.5) //was 101, set to 98
+apc[n_nakeaxon + 2].thresh = 0 //10	//set ap threshold
+apc_times[n_nakeaxon + 2]=new Vector()
+apc[n_nakeaxon + 2].record(apc_times[n_nakeaxon + 2])
+
+
+
+
+/*
+//load the section identifiers I want to record from
+ropen("experiment/rossPrintN.txt")
+objref sectionsToRecordFrom
+sectionsToRecordFrom = new Vector(184)
+
+for i=0,183 {sectionsToRecordFrom.x[i] = fscan()}
+
+
+
+
+objref APTimesNakeaxon[sectionsToRecordFrom.size()]
+
+//nakeaxon + soma
+
+for i=0,(sectionsToRecordFrom.size() - 1) {
+	APTimesNakeaxon[i] = new Vector()
+	APTimesNakeaxon[i]apc.record(&apc[sectionsToRecordFrom.x[i]].time)
+}
+*/
+
+
+
+/*
+//nakeaxon
+for i=0,(sectionsToRecordFrom.size() - 1) {
+	APTimesNakeaxon[i] = new Vector()
+	APTimesNakeaxon[i].record(&apc[sectionsToRecordFrom.x[i]].time)
+}
+*/
+
+
+//Last one will be the soma time
+
+
+
+/*
+
+//put this after the run command
+//Save this to a file
+
+proc APTimesTofileNakeaxon() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,APTimesNakeaxon[0].size()-1 {
+
+	for j=0,APTimesNakeaxon.size() - 2 {
+		tfil.printf("%g\t", APTimesNakeaxon[j].x[i])
+	}
+
+	tfil.printf("%g\n", APTimesNakeaxon[APTimesNakeaxon.size() - 1].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+APTimesTofileNakeaxon("membraneVoltages/nakeaxonAPTimes.txt")
+
+
+*/

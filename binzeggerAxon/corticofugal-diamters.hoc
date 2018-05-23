@@ -1,0 +1,22 @@
+//set the diameter of the nodes and myelin sections to fractions of isegdiam
+
+//nodes:
+//forsec nodeseclist diam = isegdiam*0.5
+forsec nodeseclist diam = 1.5
+
+//Myelin:
+//forsec myelinseclist diam = isegdiam
+forsec myelinseclist diam = 3
+
+
+//Changing the Hyperdirect branch diameter
+
+for i =98, 131 {
+node[i].diam = isegdiam*0.9/2
+}
+
+for i = 49, 65 {
+myelin[i].diam = isegdiam*0.9
+}
+
+

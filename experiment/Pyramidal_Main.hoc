@@ -1,0 +1,458 @@
+/* -----------------------------------------------------
+    Layer V Cortical Pyramidal Cell
+    
+    Based on Yu Yuguo ( May 1, 2008)
+
+Revised 2015-2018 by Ross Anderson
+----------------------------------------------------- */
+
+
+objref somatodendritic, dendritic
+
+
+
+
+// --------------------------------------------------
+//    Parameter Settings
+// --------------------------------------------------
+
+/* Global */
+  dt = 0.005
+  celsius   = 37
+  steps_per_ms = 1/dt
+  tstop = 1050
+  v_init = -70
+  
+/* Others */
+  delay = 2  // global delay for preparing
+  axonOnSoma=1
+  
+/* Passive membrane */
+  ra        = 150
+  global_ra = ra
+  rm        = 30000   // g_pas=1/rm
+  c_m       = 0.5
+
+//myelin
+  cm_myelin = 0.02
+  g_pas_node = 0.02
+
+
+/* Active channels */
+  // Nav
+  Ena = 60
+  gna12_soma = 80
+  gna12_dend = 80 
+  gna12_ais_max = 3200   // Nav1.2 
+  gna16_ais_max = 3200   // Nav1.6
+  gna16_nakeaxon= 300    
+  gna12_myelin=20       // Nav1.2 at myelins
+  gna16_node = 3200     // Nav1.6 at node
+  
+  vhalf_na12 = -30
+  vhalf_na16 = -43
+  vhalf_na = -30
+  
+  // Kv
+  Ek = -90  
+  gkv_soma = 20
+  gkv_dend = 10 
+  gkv_axon = 1000
+  
+  // Km
+  gkm = .3
+  gkm_soma = gkm
+  
+  // Kca
+  gkca = 3
+  gkca_soma = gkca
+  
+  // Ca
+  Eca=140
+  gca = .3
+  gca_soma = gca
+
+
+
+
+// ------------------------------------------------
+//    Cell Geometry
+// ------------------------------------------------
+ 
+
+/* Clean up */  
+  forall delete_section()
+
+/* Soma and Dendrites */
+load_file("morphology/P_Soma_Dendrites.hoc")
+
+// build a sectionlist for soma and dendrites
+somatodendritic = new SectionList()
+forall {
+  if (L/nseg>40) {
+    nseg = L/40 + 1 
+  }    // make sure no segments exceed 40 uM length.
+  somatodendritic.append()  // soma and dendrites are all included
+}
+
+    
+// build a sectionlist for dendrites only
+dendritic = new SectionList()
+forsec somatodendritic dendritic.append()
+soma  dendritic.remove()     // remove soma for pure dendritic sectionlist
+
+/* Axon */
+load_file ("morphology/P_Hill_AIS.hoc") 
+load_file ("morphology/P_Axon.hoc") 
+create_axon()
+
+
+//Binzegger corticofugal axon, insert here if using Hu biophysics
+
+
+//set the diameter that all the sections reference to
+isegdiam = 1.22
+
+//Load the corticofugal axon structure:
+xopen("binzeggerAxon/corticofugal-structure.hoc")
+
+//Load the corticofugal axon structure connections:
+xopen("binzeggerAxon/corticofugal-connectStatement.hoc")
+
+//Load the corticofugal axon structure diameters
+xopen("binzeggerAxon/corticofugal-diamters.hoc")
+
+  
+/* Spines */
+  aspiny = 0
+  if (!aspiny) {
+    load_file ("morphology/P_Spines.hoc")
+    add_spines(dendritic,spine_dens)
+  }
+  
+  
+  distance(0,axonOnSoma)  // set the point where axon seated on soma as the origin
+
+
+// ----------------------------------------------------
+//  Insert Density Mechanisms
+// ----------------------------------------------------
+
+load_file ("lib/P_DensityMech.hoc") 
+
+// Install passive membrane properties
+install_passive()  
+// Install active channels
+install_channels()
+
+
+
+//Note, this order is very important
+//Binzegger structure (Hill + AIS already loaded).
+//Cortical axon arbor structure from: 
+//Binzegger T, Douglas RJ, Martin KA. 2005. Axons in the cat visual cortex are topologically self-similar. Cereb Cortex. 15(2):152-65.
+
+xopen("binzeggerAxon/binzegger-structure.hoc")
+xopen("binzeggerAxon/binzegger-connectStatement.hoc")
+xopen("binzeggerAxon/binzegger-diameters.hoc")
+
+
+
+//This is where the corticofugal myelinated structure would be loaded if using Shu dynamics
+
+
+//Load Shu specific membrane dynamics
+xopen("binzeggerAxon/shu-binzegger-control.hoc")
+
+//Connect them
+ais[9] connect nakeaxon[0](0), 1
+
+nakeaxon[306] connect node[0](0), 1
+
+
+//Make the hyperdirect axon terminal nodes passive and 1um long
+
+node[115] {
+	L = 1
+	gbar_na16=0
+}
+
+node[123] {
+	L = 1
+	gbar_na16=0
+}
+
+node[129] {
+	L = 1
+	gbar_na16=0
+}
+
+node[131] {
+	L = 1
+	gbar_na16=0
+}
+
+
+
+/*
+//This section is used for testing the model with intracellular stimulation.  Uncomment if needed.  The paper uses only extracellular stimulation for all simulations.
+
+//10 Hz = 99.5 ms; 20 Hz = 49.5 ms; 30 Hz = 32.833 ms; 40 Hz = 24.5 ms; 50 Hz = 19.5 ms; 60 Hz = 16.166 ms; 70 Hz = 13.785 ms; 80 Hz = 12 ms; 90 Hz = 10.611 ms; 100 Hz = 9.5 ms; 110 Hz = 8.591 ms; 120 Hz = 7.833 ms; 130 Hz = 7.192 ms; 140 Hz = 6.643 ms; 150 Hz = 6.166 ms; 160 Hz = 5.75 ms; 170 Hz = 5.382 ms; 180 Hz = 5.056 ms; 190 Hz = 4.763 ms; 200 Hz = 4.5 ms
+
+objectvar stimSTN
+
+node[131] stimSTN = new Ipulse1(0.5) //Stimulation of the tip of the smallest hyperdirect collateral
+
+stimSTN.del = 1 //1
+stimSTN.ton = 0.5
+stimSTN.toff = 6.643
+stimSTN.num = 1  //40
+stimSTN.amp = 1  //1 //0.05
+
+*/
+
+
+
+//Include excitatory and inhibitory inputs to the dendrites and cell body (Figure 4-6):
+//xopen("experiment/excinhib/excinhib.hoc")
+
+
+
+
+
+//Section to perform extracellular stimulation
+
+//Set the range over which to insert membrane potentials
+n1_node_low = 0
+n1_node_high = n_node
+
+n1_myelin_low = 0
+n1_myelin_high = n_myelin
+
+
+//Load the extracellular potentials for the node and myelin sections
+
+ropen("extracellular/node_centers_phi.txt")
+objref phi_ext_node
+phi_ext_node = new Vector(n_node + 1)
+
+for i=0,n_node{
+	trash=fscan()  //disregard the first column
+	phi_ext_node.x[i] = fscan()
+}
+
+
+ropen("extracellular/myelin_centers_phi.txt")
+objref phi_ext_myelin
+phi_ext_myelin = new Vector(n_myelin + 1)
+
+for i=0,n_myelin{
+	trash=fscan()  //disregard the first column	
+	phi_ext_myelin.x[i] = fscan()
+}
+
+
+
+//Insert the extracellular mechanism in the myelin and node sections:
+
+//myelin
+  for i=n1_myelin_low,n1_myelin_high {
+    myelin[i] {
+      insert extracellular
+      myelinlist[i] = new SectionRef()
+    }
+  }
+
+//node
+  for i=n1_node_low,n1_node_high {
+    node[i] {
+      insert extracellular
+      nodelist[i] = new SectionRef()
+    }
+  }
+
+
+
+//Generate the stimulation waveform for extracellular stimulation:
+
+no_t_pts=int(tstop/dt)// # of time points (#)
+objref stimwave  //The vector containing the stimulus waveform
+
+extAmp = 0.024  //extracellular scaling factor, Volts (mA)
+
+//Number of pulses in stim_dur
+ap_num = 1
+
+//Duration of stimulus, in ms
+stim_dur = 1000
+
+//Pulse width in milliseconds, 60 microseconds used
+stim_pulse_width = 0.06
+
+//Initial Delay before starting stimulation, milliseconds
+first_stim_delay = 1 
+
+
+proc stimul() {
+	//create a vector full of 0s, the size of total number of points
+	stimwave=new Vector(no_t_pts,0)
+	extAmp = $1
+	//next, loop to ap_num and fill in stimwave only locations with ones
+	for j = 0,ap_num - 1{
+		for k = (first_stim_delay*steps_per_ms + j*(stim_dur/ap_num)*steps_per_ms),(first_stim_delay*steps_per_ms + j*(stim_dur/ap_num)*steps_per_ms +  stim_pulse_width/dt - 1)  {
+			stimwave.x[k] = -extAmp*1000  //
+		}
+	}
+nn = 0
+}
+
+//stimul(extAmp)  //For testing, set nn=0 and call stimul(Amplitude of stimulus)
+
+
+
+//custom advance function for extracellular stimulation
+
+nn=0
+proc advance() {
+
+        for jj=n1_node_low,n1_node_high{
+		nodelist[jj].sec.e_extracellular(0.5) = phi_ext_node.x[jj]*stimwave.x[nn] // mV //phi_ext.x[jj]*stimwave.x[nn] // mV
+        }
+
+        for kk=n1_myelin_low,n1_myelin_high{
+		myelinlist[kk].sec.e_extracellular(0.5) = phi_ext_myelin.x[kk]*stimwave.x[nn] // mV //phi_ext.x[jj]*stimwave.x[nn] // mV
+        }
+
+        fadvance()
+        nn=nn+1
+
+}
+
+
+
+
+
+
+//procedure to run the simulation:
+
+proc runSim(){
+	stimul($1)
+	run()
+}
+
+
+
+
+
+
+
+
+
+//used to count Action potentials
+objectvar apc[n_nakeaxon + 3]
+
+for i=0,n_nakeaxon {
+	nakeaxon[i] apc[i] = new APCount(0.5)
+	apc[i].thresh = 0  //set ap threshold
+}
+
+//record N APs in the soma:
+soma apc[n_nakeaxon + 1] = new APCount(0.5)
+apc[n_nakeaxon + 1].thresh = 0 //10	//set ap threshold
+
+//record N APs in the hyperdirect collateral where it joins the primary branch to the main corticofugal axon:
+node[98] apc[n_nakeaxon + 2] = new APCount(0.5)  //was 101, set to 98
+apc[n_nakeaxon + 2].thresh = 0 //10	//set ap threshold
+
+
+
+
+
+
+
+
+
+
+
+//Load the code to save the VM for all points in the structure, used for Figures 2, 3, 4, 5, 7:
+//Note, this consumes a lot of memory, leave commented for testing.
+//xopen("experiment/saveVm.txt")
+
+
+
+//load the code to save the AP times at all terminals:
+//xopen("experiment/saveAPTime.txt")
+
+
+
+
+xopen("session/shape-plot.ses")
+
+
+//If session files contain different values for tstop or dt, set new value here, otherwise disregard.
+tstop = 1050
+//dt = 0.005
+
+//run the simulation:
+runSim(0.0372)
+
+
+
+
+//Figure 2:
+//Uncomment the line below to save the membrane voltages used in Figure 2 A/B/D.
+//Stimulate at 130Hz
+//Uncomment saveVm.txt
+//xopen("experiment/writeOutVmFig2.txt")
+
+
+//Figure 3:
+//Uncomment the line below to save all membrane voltage to generate the shape plot:
+//Make sure experiment/saveVm.txt is enabled
+//xopen("experiment/writeOutVm.txt")
+
+
+
+//Figure 3C: Code used to print the timings of antidromically evoked AP in the cortical axon arbor terminals in response to a single stimulation event, 50 Hz stimulation and 130 Hz stimulation.
+//Be sure to set the number of APs evoked in the stimulus waveform generation section.
+//Enable experiment/saveAPTime.txt
+/*
+//load the section identifiers I want to record from
+ropen("experiment/rossPrintN.txt")
+objref sectionsToRecordFrom
+sectionsToRecordFrom = new Vector(184)
+
+for i=0,181 {sectionsToRecordFrom.x[i] = fscan()}  //183 for soma + stim location, 181 for just nakeaxon terminals
+
+for i = 0, 181 {
+	for j = 0, apc_times[sectionsToRecordFrom.x[i]].size()-1 {
+		print apc_times[sectionsToRecordFrom.x[i]].x[j]
+	}
+}
+*/
+
+
+//Figure 4 and 5 VM:
+//Uncomment the line below to save the membrane voltage for Figures 4 and 5:
+//Note, enable: experiment/excinhib/excinhib.hoc"
+//xopen("experiment/writeOutVmFig4and5.txt")
+
+
+
+
+//Figure 5, 6, and general testing:
+//Print out the number of APs for each terminal:
+
+ropen("experiment/rossPrintN.txt")
+for i = 0,183 print apc[fscan()].n  //Number of APs
+//for i = 0,183 print apc[fscan()].time  //Timing of APs
+
+
+
+
+
+
+//quit()
+
+
+

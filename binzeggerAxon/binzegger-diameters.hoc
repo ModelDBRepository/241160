@@ -1,0 +1,17 @@
+//set everything to one diameter:
+forsec wholeaxon diam = isegdiam
+
+//corticofugal axon
+forsec binzeggerCorticofugal diam = isegdiam*0.9
+
+//first order:
+forsec firstOrder diam = isegdiam*0.5
+
+//second order:
+forsec secondOrder diam = isegdiam*0.4
+
+//third order:
+forsec thirdOrder diam = isegdiam*0.35
+
+
+

@@ -1,0 +1,82 @@
+// --------------------------------------------------------------
+// passive & active membrane 
+// --------------------------------------------------------------
+
+
+
+proc init_shu_axon() {
+
+
+//global variable made specific to shu
+cm_myelin_shu = 0.04
+g_pas_node_shu = 0.02
+gna_node_shu = 7500
+gkv_axon_shu = 1000
+gna_dend_shu = 20
+
+
+forsec wholeaxon {
+  //active
+  // na+ channels
+  insert naShu
+
+  //passive
+  ra = 100
+  Ra = ra
+  //global_ra = ra
+
+  insert pas
+  rm = 40000
+  cm = 0.7
+
+  g_pas = 1/rm
+  e_pas = v_init
+
+
+  Ek = -90
+  Ena = 60
+
+}
+
+//not using myelinated axon yet, uncomment once we have it.
+/*
+  // exceptions along the axon
+  forsec myelinseclist cm = cm_myelin_shu*1
+  forsec myelinseclist g_pas = 0.00002
+  forsec nodeseclist g_pas = g_pas_node_shu
+
+  forsec myelinseclist gbar_naShu = gna_dend_shu*1
+  forsec nodeseclist gbar_naShu = gna_node_shu/5
+  
+*/
+
+// na channels
+  forsec binzeggerCorticofugal gbar_naShu = gna_node_shu/3
+  forsec firstOrder gbar_naShu = gna_node_shu/8.333
+  forsec secondOrder gbar_naShu = gna_node_shu/10
+  forsec thirdOrder gbar_naShu = gna_node_shu/20
+  
+ 
+//  forsec "node" gbar_kvShu = gkv_axon_shu  
+// this is added by Yu at Oct.13
+
+  // kv delayed rectifier channels
+  forsec binzeggerCorticofugal { insert kvShu  gbar_kvShu = gkv_axon_shu/2 }
+  forsec firstOrder { insert kvShu  gbar_kvShu = gkv_axon_shu/5 }
+  forsec secondOrder { insert kvShu  gbar_kvShu = gkv_axon_shu/10 }
+  forsec thirdOrder { insert kvShu  gbar_kvShu = gkv_axon_shu/20 }
+
+
+  forsec wholeaxon if(ismembrane("k_ion")) ek = Ek
+  forsec wholeaxon if(ismembrane("na_ion")) {
+    ena = Ena
+    // seems to be necessary for 3d cells to shift Na kinetics -5 mV
+    vshift_naShu = -5
+  }
+
+}
+
+
+
+
+init_shu_axon()

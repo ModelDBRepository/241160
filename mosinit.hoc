@@ -1,0 +1,4 @@
+//moddir mechanism
+load_file("nrngui.hoc")
+xopen("experiment/Pyramidal_Main.hoc")
+

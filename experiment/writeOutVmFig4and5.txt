@@ -1,0 +1,32 @@
+
+
+//objref membraneEExtracellular[1] //e_extracellular
+//membraneEExtracellular[0] = new Vector()
+//membraneEExtracellular[0].record(&node[101].e_extracellular(0.5))
+
+
+
+
+proc membraneVoltageTofile1() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+	tfil.printf("%g\t", membraneEExtracellular[0].x[i])  //e_extracellular
+
+	tfil.printf("%g\t", membraneVoltageNakeaxon[292].x[i])  //Terminal #144
+
+	tfil.printf("%g\t", membraneVoltageSoma.x[i])
+	tfil.printf("%g\t", membraneVoltageHill.x[i])
+	tfil.printf("%g\n", membraneVoltageAIS[4].x[i])  //Add a new line at the end
+
+
+
+	}
+  tfil.close()
+}
+membraneVoltageTofile1("membraneVoltages/figure4and5.txt")

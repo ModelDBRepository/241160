@@ -1,0 +1,410 @@
+//Save and write files for all 11 dendrites:
+
+proc membraneVoltageTofile1() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend1N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend1[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend1[dend1N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+membraneVoltageTofile1("membraneVoltages/shape-plot/dend1NVm.txt")
+
+
+proc membraneVoltageTofile2() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend2N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend2[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend2[dend2N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile2("membraneVoltages/shape-plot/dend2NVm.txt")
+
+
+
+
+proc membraneVoltageTofile3() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend3N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend3[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend3[dend3N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile3("membraneVoltages/shape-plot/dend3NVm.txt")
+
+
+
+
+
+proc membraneVoltageTofile4() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend4N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend4[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend4[dend4N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile4("membraneVoltages/shape-plot/dend4NVm.txt")
+
+
+
+proc membraneVoltageTofile5() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend5N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend5[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend5[dend5N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile5("membraneVoltages/shape-plot/dend5NVm.txt")
+
+
+
+proc membraneVoltageTofile6() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend6N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend6[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend6[dend6N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile6("membraneVoltages/shape-plot/dend6NVm.txt")
+
+
+
+proc membraneVoltageTofile7() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend7N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend7[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend7[dend7N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile7("membraneVoltages/shape-plot/dend7NVm.txt")
+
+
+
+
+
+proc membraneVoltageTofile8() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend8N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend8[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend8[dend8N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile8("membraneVoltages/shape-plot/dend8NVm.txt")
+
+
+
+proc membraneVoltageTofile9() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend9N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend9[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend9[dend9N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile9("membraneVoltages/shape-plot/dend9NVm.txt")
+
+
+
+
+
+proc membraneVoltageTofile10() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend10N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend10[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend10[dend10N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile10("membraneVoltages/shape-plot/dend10NVm.txt")
+
+
+
+
+proc membraneVoltageTofile11() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	//tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(dend11N-1){  //Next print the voltage at i for dend1
+
+		tfil.printf("%g\t", membraneVoltageDend11[j].x[i])
+	}
+	tfil.printf("%g\n", membraneVoltageDend11[dend11N].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofile11("membraneVoltages/shape-plot/dend11NVm.txt")
+
+
+
+
+//Unmyelinated structure
+
+
+proc membraneVoltageTofileNakeaxon() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(n_nakeaxon - 1){  //Next print the voltage at i for node[j]
+		tfil.printf("%g\t", membraneVoltageNakeaxon[j].x[i])
+	}
+
+	tfil.printf("%g\n", membraneVoltageNakeaxon[n_nakeaxon].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileNakeaxon("membraneVoltages/shape-plot/nakeaxonVm.txt")
+
+
+
+
+
+
+
+//Nodes
+
+
+proc membraneVoltageTofileNode() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(n_node - 1){  //Next print the voltage at i for node[j]
+		tfil.printf("%g\t", membraneVoltageNode[j].x[i])
+	}
+
+	tfil.printf("%g\n", membraneVoltageNode[n_node].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileNode("membraneVoltages/shape-plot/nodeVm.txt")
+
+
+
+//Myelin
+proc membraneVoltageTofileMyelin() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,(n_myelin - 1){  //Next print the voltage at i for node[j]
+		tfil.printf("%g\t", membraneVoltageMyelin[j].x[i])
+	}
+
+	tfil.printf("%g\n", membraneVoltageMyelin[n_myelin].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileMyelin("membraneVoltages/shape-plot/myelinVm.txt")
+
+
+
+//AIS
+proc membraneVoltageTofileAis() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	for j=0,8{
+		tfil.printf("%g\t", membraneVoltageAIS[j].x[i])
+	}
+
+	tfil.printf("%g\n", membraneVoltageAIS[9].x[i])  //Add a new line at the end
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileAis("membraneVoltages/shape-plot/aisVm.txt")
+
+
+
+//Hill
+proc membraneVoltageTofileHill() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	tfil.printf("%g\n", membraneVoltageHill.x[i])
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileHill("membraneVoltages/shape-plot/hillVm.txt")
+
+
+
+//Soma
+proc membraneVoltageTofileSoma() {local i, j  localobj tfil
+
+  print "writing to ", $s1
+  tfil = new File()
+  tfil.wopen($s1)
+
+  for i=0,membraneTimes.size()-1 {
+
+	tfil.printf("%g\t", membraneTimes.x[i]) //first print the time at i
+
+	tfil.printf("%g\n", membraneVoltageSoma.x[i])
+	}
+  tfil.close()
+}
+
+membraneVoltageTofileSoma("membraneVoltages/shape-plot/somaVm.txt")
+
+
+
+
+
+
+
